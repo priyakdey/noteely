@@ -1,0 +1,22 @@
+name: Pull Request Validation
+
+on:
+  pull_request:
+    branches: ["main"]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Setup JDK 21
+        uses: actions/setup-java@v3
+        with:
+          java-version: "21"
+          distribution: "zulu"
+      - name: Access to gradle
+        run: chmod +x ./gradlew
+      - name: Run test suite
+        run: make runTests
+      - name: Build the jar
+        run: make build
